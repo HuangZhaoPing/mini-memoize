@@ -1,9 +1,9 @@
-import { MemoizeOptions } from 'types'
+import { MemoizeOptions, Memoize } from 'types'
 import Cache from './cache'
 
-export default function (fn: (...params: any[]) => any, options?: MemoizeOptions) {
-  const cache = new Cache(options.max || 100)
-  function memoize (...params: any[]) {
+export default function <T extends (...args: any[]) => any> (fn: T, options?: MemoizeOptions): Memoize<T> {
+  const cache = new Cache(options ? options.max : null)
+  const memoize = <Memoize<T>>function (...params: any[]) {
     if (params.length === 0) return fn.call(this)
     const key = JSON.stringify(params)
     let value = cache.get(key)
@@ -13,16 +13,14 @@ export default function (fn: (...params: any[]) => any, options?: MemoizeOptions
     }
     return value
   }
-  Object.defineProperties(memoize, {
-    delete: { 
-      value: (key: any) => cache.delete(key)
-    },
-    clear: {
-      value: () => (cache.clear())
-    },
-    has: {
-      value: (key: any) => cache.has(key)
-    }
-  })
+  memoize.delete = function (key: string): boolean {
+    return cache.delete(key)
+  }
+  memoize.clear = function (): void {
+    cache.clear()
+  }
+  memoize.has = function (key: string): boolean {
+    return cache.has(key)
+  }
   return memoize
 }

@@ -2,7 +2,7 @@
 export default class Cache {
   private max: number
   private cache: Map<any, any>
-  constructor (max: number) {
+  constructor (max?: number) {
     this.max = max
     this.cache = new Map()
   }
