@@ -7,7 +7,7 @@ const options = {
   outDir: './example',
   outFile: 'index.html',
   publicUrl: '/',
-  cache: false,
+  cache: false
 }
 
 const bundler = new Bundler(entryFiles, options)
