@@ -1,3 +1,4 @@
 node_modules
 example
 .cache
+.DS_Store
