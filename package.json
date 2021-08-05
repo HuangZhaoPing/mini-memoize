@@ -1,6 +1,6 @@
 {
   "name": "mini-memoize",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "lib/mini-memoize.js",
   "scripts": {

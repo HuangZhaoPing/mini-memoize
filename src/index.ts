@@ -1,4 +1,4 @@
-import Memoize, { MemoizeOptions, EventType } from 'types'
+import { MemoizeOptions, EventType, Memoize } from 'types'
 import Cache from './cache'
 import Event from './event'
 
