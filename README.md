@@ -104,8 +104,13 @@ function add (a, b) {
 }
 const memoizeAdd = memoize(add)
 
-// type: get、delete、clear
-memoizeAdd.on('delete', function (args) => {
+function handler (args) {
   console.log(args)
-})
+}
+
+// on，type: get、delete、clear
+memoizeAdd.on('delete', handler)
+
+// off
+memoizeAdd.off('delete', handler)
 ```
