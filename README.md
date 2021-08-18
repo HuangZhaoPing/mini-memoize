@@ -87,7 +87,7 @@ import memoize from 'mini-memoize'
 function add (a, b) {
   return a + b
 }
-const memoizeAdd = memoize(add)
+const memoizeAdd = memoize(add, { max: 2 })
 memoizeAdd(1, 2) // excute
 memoizeAdd(1, 3)
 memoizeAdd(1, 4)
