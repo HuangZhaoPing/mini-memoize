@@ -5,7 +5,7 @@ declare interface MemoizeOptions {
 declare type EventType = 'get' | 'delete' | 'clear'
 
 declare type Memoize<T> = T & {
-  get (...args: any[]): any 
+  get (...args: any[]): any
   delete (...args: any[]): boolean
   clear (): void
   has (...args: any[]): boolean

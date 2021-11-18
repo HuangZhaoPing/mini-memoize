@@ -2,7 +2,7 @@ import { MemoizeOptions, EventType, Memoize } from 'types'
 import Cache from './cache'
 import Event from './event'
 
-const stringify = JSON.stringify
+const { parse, stringify } = JSON
 
 export default function <T extends (...args: any[]) => any> (fn: T, options?: MemoizeOptions): Memoize<T> {
   const cache = new Cache(options ? options.max : null)
@@ -22,8 +22,12 @@ export default function <T extends (...args: any[]) => any> (fn: T, options?: Me
     return cache.get(stringify(args))
   }
   memoize.delete = function (...args: any[]): boolean {
-    event.emit('delete', args)
-    return cache.delete(stringify(args))
+    if (typeof args[0] === 'function' && args.length === 1) {
+      return loop(cache, event, args[0])
+    } else {
+      event.emit('delete', args)
+      return cache.delete(stringify(args))
+    }
   }
   memoize.clear = function (): void {
     event.emit('clear')
@@ -39,4 +43,14 @@ export default function <T extends (...args: any[]) => any> (fn: T, options?: Me
     event.off(type, listener)
   }
   return memoize
+}
+
+function loop (cache: Cache, event: Event, fn: (args: any[]) => {}): boolean {
+  return cache
+    .keys()
+    .filter(key => fn(parse(key)))
+    .every(key => {
+      event.emit('delete', parse(key))
+      return cache.delete(key)
+    })
 }

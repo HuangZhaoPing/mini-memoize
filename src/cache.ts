@@ -33,4 +33,7 @@ export default class Cache {
   has (key: any) {
     return this.cache.has(key)
   }
+  keys () {
+    return Array.from(this.cache.keys())
+  }
 }
